@@ -59,10 +59,14 @@ footer{text-align:center;color:#718096;font-size:11px;padding:20px}
 </main>
 <footer>LUXI • BUILT FOR GAMERS</footer>
 <script>
+
 function startGame(){
- document.getElementById('message').textContent=
- 'Game mode prepared! Open your game and enable your phone’s gaming tools if available.';
+ const message = document.getElementById('message');
+ message.textContent = '⚡ LUXI GAME MODE ACTIVATED! Your gaming session is ready.';
+ message.style.color = '#70f6d0';
+ message.style.fontWeight = 'bold';
 }
+
 function openSettings(){
  location.href='intent:#Intent;action=android.settings.SETTINGS;end';
 }
