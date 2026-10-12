@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<title>LUXI Game Booster</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080b12;color:#f4f7ff;font-family:Arial,sans-serif}
+header{padding:25px 20px 18px;background:linear-gradient(145deg,#17253b,#090d16);border-bottom:1px solid #27344b}
+.logo{font-size:29px;font-weight:900;letter-spacing:5px;color:#70f6d0}
+header p{color:#9baabe;font-size:12px;letter-spacing:2px}
+main{padding:20px;max-width:500px;margin:auto}
+.panel{background:#111824;border:1px solid #263548;border-radius:20px;padding:20px;margin-bottom:16px}
+.label{font-size:11px;color:#91a4bc;letter-spacing:2px}
+.status{display:flex;align-items:center;gap:9px;margin:14px 0}
+.dot{width:9px;height:9px;border-radius:50%;background:#70f6d0;box-shadow:0 0 12px #70f6d0}
+h2{font-size:23px;margin:8px 0}
+p{color:#a5b3c7;font-size:13px;line-height:1.6}
+button{width:100%;padding:16px;border:1px solid #30445a;border-radius:13px;background:#182536;color:white;font-size:14px;font-weight:bold;margin-top:10px}
+button.primary{background:#70f6d0;color:#07120f;border:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:#111824;border:1px solid #263548;border-radius:16px;padding:17px 12px}
+.tile b{display:block;margin:9px 0;font-size:14px}
+.tile span{font-size:11px;color:#95a7bd}
+footer{text-align:center;color:#718096;font-size:11px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">LUXI</div>
+ <p>GAMING PERFORMANCE CENTER</p>
+</header>
+<main>
+ <section class="panel">
+  <div class="label">YOUR GAMING SPACE</div>
+  <div class="status"><span class="dot"></span><b>READY TO PLAY</b></div>
+  <h2>Enter Game Mode</h2>
+  <p>Prepare your phone for a focused gaming session.</p>
+  <button class="primary" onclick="startGame()">ACTIVATE GAME MODE ↗</button>
+  <button onclick="openSettings()">OPEN PHONE SETTINGS</button>
+  <p id="message">Game mode is currently inactive.</p>
+ </section>
+ <div class="grid">
+  <div class="tile">⚡<b>Performance</b><span>Gaming tips & setup</span></div>
+  <div class="tile">🎯<b>Focus Mode</b><span>Prepare to concentrate</span></div>
+  <div class="tile">📱<b>Device Info</b><span id="device">Android device</span></div>
+  <div class="tile">🎮<b>Game Center</b><span>Choose your game</span></div>
+ </div>
+ <section class="panel" style="margin-top:16px">
+  <div class="label">QUICK OPTIMIZATION</div>
+  <h2>Play smarter.</h2>
+  <p>Close unused apps manually, enable your phone's built-in game mode if available, and avoid playing while the phone overheats.</p>
+  <button onclick="tips()">SHOW GAMING TIPS</button>
+  <p id="tips"></p>
+ </section>
+</main>
+<footer>LUXI • BUILT FOR GAMERS</footer>
+<script>
+function startGame(){
+ document.getElementById('message').textContent=
+ 'Game mode prepared! Open your game and enable your phone’s gaming tools if available.';
+}
+function openSettings(){
+ location.href='intent:#Intent;action=android.settings.SETTINGS;end';
+}
+function tips(){
+ document.getElementById('tips').textContent=
+ 'Lower graphics if lagging. Keep some storage free. Use a stable connection. Let your phone cool down between sessions.';
+}
+document.getElementById('device').textContent=
+ /Android/i.test(navigator.userAgent)?'Android detected':'Device detected';
+</script>
+</body>
+  </html>
+  
