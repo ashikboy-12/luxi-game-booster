@@ -1,1 +1,192 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<title>LUXI Game Booster</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080b12;color:#f4f7ff;font-family:Arial,sans-serif}
+header{padding:25px 20px 18px;background:linear-gradient(145deg,#17253b,#090d16);border-bottom:1px solid #27344b}
+.logo{font-size:29px;font-weight:900;letter-spacing:5px;color:#70f6d0}
+header p{color:#9baabe;font-size:12px;letter-spacing:2px}
+main{padding:20px;max-width:500px;margin:auto}
+.panel{background:#111824;border:1px solid #263548;border-radius:20px;padding:20px;margin-bottom:16px}
+.label{font-size:11px;color:#91a4bc;letter-spacing:2px}
+.status{display:flex;align-items:center;gap:9px;margin:14px 0}
+.dot{width:9px;height:9px;border-radius:50%;background:#718096}
+.dot.on{background:#70f6d0;box-shadow:0 0 12px #70f6d0}
+h2{font-size:23px;margin:8px 0}
+p{color:#a5b3c7;font-size:13px;line-height:1.6}
+button,select{width:100%;padding:15px;border:1px solid #30445a;border-radius:13px;background:#182536;color:white;font-size:14px;font-weight:bold;margin-top:10px}
+button{cursor:pointer}
+button.primary{background:#70f6d0;color:#07120f;border:0}
+button:active{transform:scale(.98)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:#111824;border:1px solid #263548;border-radius:16px;padding:17px 12px;cursor:pointer}
+.tile b{display:block;margin:9px 0;font-size:14px}
+.tile span{font-size:11px;color:#95a7bd}
+.tile:active{border-color:#70f6d0}
+.result{white-space:pre-line;background:#0b111b;border-radius:12px;padding:12px;margin-top:12px;color:#70f6d0;font-size:13px;line-height:1.7}
+footer{text-align:center;color:#718096;font-size:11px;padding:20px}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">LUXI</div>
+ <p>GAMING PERFORMANCE CENTER</p>
+</header>
+
+<main>
+ <section class="panel">
+  <div class="label">YOUR GAMING SPACE</div>
+  <div class="status">
+   <span class="dot" id="dot"></span>
+   <b id="status">READY TO PLAY</b>
+  </div>
+  <h2>Enter Game Mode</h2>
+  <p>Prepare your phone for a focused gaming session.</p>
+  <button class="primary" id="activate" onclick="startGame()">ACTIVATE GAME MODE ↗</button>
+  <button onclick="openSettings()">OPEN PHONE SETTINGS</button>
+  <p id="message" role="status">Game mode is currently inactive.</p>
+ </section>
+
+ <div class="grid">
+  <div class="tile" onclick="performance()">
+   ⚡<b>Performance</b><span>Gaming tips & setup</span>
+  </div>
+  <div class="tile" onclick="focusMode()">
+   🎯<b>Focus Mode</b><span id="focusStatus">Tap to activate</span>
+  </div>
+  <div class="tile" onclick="deviceInfo()">
+   📱<b>Device Info</b><span>View available details</span>
+  </div>
+  <div class="tile" onclick="gameCenter()">
+   🎮<b>Game Center</b><span>Choose your game</span>
+  </div>
+ </div>
+
+ <section class="panel" style="margin-top:16px">
+  <div class="label">QUICK OPTIMIZATION</div>
+  <h2>Play smarter.</h2>
+  <p>Useful tools to prepare for your next game.</p>
+  <button onclick="tips()">SHOW GAMING TIPS</button>
+  <div id="tips" class="result" hidden></div>
+  <div id="details" class="result" hidden></div>
+ </section>
+ <footer>LUXI • BUILT FOR GAMERS</footer>
+</main>
+
+<script>
+let gameActive = false;
+let focusActive = false;
+
+function showDetails(title, text) {
+ const box = document.getElementById('details');
+ box.hidden = false;
+ box.textContent = title + '\n\n' + text;
+ document.getElementById('tips').hidden = true;
+ box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function startGame() {
+ gameActive = !gameActive;
+ document.getElementById('status').textContent =
+  gameActive ? 'GAME MODE ACTIVE' : 'READY TO PLAY';
+ document.getElementById('dot').classList.toggle('on', gameActive);
+ document.getElementById('activate').textContent =
+  gameActive ? 'DEACTIVATE GAME MODE' : 'ACTIVATE GAME MODE ↗';
+ const msg = document.getElementById('message');
+ msg.textContent = gameActive
+  ? '✓ LUXI session activated. Follow the tips below for better gameplay.'
+  : 'Game mode is currently inactive.';
+ msg.style.color = gameActive ? '#70f6d0' : '#a5b3c7';
+}
+
+function openSettings() {
+ showDetails('PHONE SETTINGS',
+  'If Settings did not open automatically, leave LUXI and open your phone Settings manually.');
+ try {
+  location.href = 'intent:#Intent;action=android.settings.SETTINGS;end';
+ } catch(e) {}
+}
+
+function performance() {
+ showDetails('PERFORMANCE GUIDE',
+  '1. Close unused apps manually.\n' +
+  '2. Enable your phone’s built-in Game Mode if available.\n' +
+  '3. Lower game graphics if lagging.\n' +
+  '4. Keep storage space free.\n' +
+  '5. Let your phone cool down if it gets hot.\n\n' +
+  'Note: LUXI cannot directly boost CPU/GPU speed from a webpage.');
+}
+
+function focusMode() {
+ focusActive = !focusActive;
+ document.getElementById('focusStatus').textContent =
+  focusActive ? 'ON • Focus enabled' : 'Tap to activate';
+ showDetails('FOCUS MODE ' + (focusActive ? 'ON' : 'OFF'),
+  focusActive
+  ? 'LUXI Focus Mode is on. Silence distractions using your phone’s Do Not Disturb setting.'
+  : 'LUXI Focus Mode is off. You can enable Do Not Disturb from phone Settings.');
+}
+
+function deviceInfo() {
+ const ua = navigator.userAgent;
+ const memory = navigator.deviceMemory
+  ? navigator.deviceMemory + ' GB (approx.)'
+  : 'Not provided by browser';
+ const cores = navigator.hardwareConcurrency
+  ? navigator.hardwareConcurrency
+  : 'Not provided';
+ const info =
+  'Platform: ' + (navigator.platform || 'Not available') + '\n' +
+  'Screen: ' + screen.width + ' × ' + screen.height + '\n' +
+  'Browser cores: ' + cores + '\n' +
+  'Approx. memory: ' + memory + '\n' +
+  'Internet: ' + (navigator.onLine ? 'Connected' : 'Offline') + '\n' +
+  'Android browser: ' + (/Android/i.test(ua) ? 'Yes' : 'Not detected') + '\n\n' +
+  'Some details are hidden by Android or the browser.';
+ showDetails('DEVICE INFORMATION', info);
+}
+
+function gameCenter() {
+ const box = document.getElementById('details');
+ box.hidden = false;
+ document.getElementById('tips').hidden = true;
+ box.textContent = 'Choose your game below.';
+ const select = document.createElement('select');
+ ['Free Fire','PUBG Mobile','eFootball','Call of Duty Mobile','Other Game']
+  .forEach(name => {
+   const option = document.createElement('option');
+   option.value = name;
+   option.textContent = name;
+   select.appendChild(option);
+  });
+ const btn = document.createElement('button');
+ btn.textContent = 'SHOW GAME TIPS';
+ btn.onclick = function() {
+  showDetails(select.value + ' • QUICK TIPS',
+   'Close unused apps, use a stable connection, adjust graphics to suit your phone, and keep the device cool.\n\nSave your own sensitivity settings inside the game.');
+ };
+ box.appendChild(select);
+ box.appendChild(btn);
+ box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function tips() {
+ const box = document.getElementById('tips');
+ box.hidden = false;
+ box.textContent =
+  '• Lower graphics if the game lags.\n' +
+  '• Use a stable Wi-Fi or mobile connection.\n' +
+  '• Keep some storage free.\n' +
+  '• Avoid playing while the phone overheats.\n' +
+  '• Close unused apps manually.';
+ document.getElementById('details').hidden = true;
+}
+</script>
+</body>
+</html>
